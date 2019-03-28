@@ -5,7 +5,6 @@ const url = '/api/persons'
 const readAll = () => {
     const request = axios.get(url)
     return request.then(response => {
-        console.log('data fetched')
         return response.data
     })
 }

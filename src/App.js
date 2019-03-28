@@ -16,7 +16,6 @@ const App = () => {
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
-    console.log('effect')
     contactHandler.readAll()
       .then(tempPersons => {
         setPersons(tempPersons)
@@ -57,7 +56,6 @@ const App = () => {
       .catch(error => {
         setNotificationMsg(`Kontakti '${person.name}' on jo poistettu tietokannasta`)
         setIsError(true)
-        console.log(isError)
         setTimeout(() => {
           setNotificationMsg(null)
           setIsError(false)
@@ -82,8 +80,18 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat(newContact))
+
       contactHandler.addContact(newContact)
+      .catch(error => {
+        setNotificationMsg('Nimi tai numero liian lyhyt (nimen on oltava vähintään 3 merkkiä ja numeron 8 merkkiä pitkä)')
+        setIsError(true)
+        setTimeout(() => {
+          setNotificationMsg(null)
+          setIsError(false)
+        }, 5000) 
+      })
+
+      setPersons(persons.concat(newContact))
 
       setNotificationMsg(`Kontakti '${newContact.name}' lisätty`)
       setIsError(false)
