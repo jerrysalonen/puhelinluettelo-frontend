@@ -59,7 +59,7 @@ const App = () => {
         setTimeout(() => {
           setNotificationMsg(null)
           setIsError(false)
-        }, 5000)  
+        }, 5000)
       })
   }
 
@@ -82,22 +82,22 @@ const App = () => {
       }
 
       contactHandler.addContact(newContact)
-      .catch(error => {
-        setNotificationMsg('Nimi tai numero liian lyhyt (nimen on oltava vähintään 3 merkkiä ja numeron 8 merkkiä pitkä)')
-        setIsError(true)
-        setTimeout(() => {
-          setNotificationMsg(null)
+        .then(response => {
+          setNotificationMsg(`Kontakti '${newContact.name}' lisätty`)
           setIsError(false)
-        }, 5000) 
-      })
-
-      setPersons(persons.concat(newContact))
-
-      setNotificationMsg(`Kontakti '${newContact.name}' lisätty`)
-      setIsError(false)
-      setTimeout(() => { 
-        setNotificationMsg(null) 
-      }, 5000)
+          setPersons(persons.concat(newContact))
+          setTimeout(() => {
+            setNotificationMsg(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setNotificationMsg('Nimi tai numero liian lyhyt (nimen on oltava vähintään 3 merkkiä ja numeron 8 merkkiä pitkä)')
+          setIsError(true)
+          setTimeout(() => {
+            setNotificationMsg(null)
+            setIsError(false)
+          }, 5000)
+        })
 
       setNewName('')
       setNewNumber('')
